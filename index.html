@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 <body>
     <div class="music__wrapper">
@@ -17,11 +18,13 @@
                 <div class="music__cd-img"></div>
             </div>
             <div class="music__controll">
-                <div class="btn btn-repeat"></div>
-                <div class="btn btn-prev"></div>
-                <div class="btn btn-play"></div>
-                <div class="btn btn-next"></div>
-                <div class="btn btn-random"></div>
+                <div class="btn btn-repeat">
+                    <i class="bi bi-arrow-repeat"></i>
+                </div>
+                <div class="btn btn-prev"><i class="bi bi-skip-backward-fill"></i></div>
+                <div class="btn btn-play"><i class="bi bi-play-fill"></i></div>
+                <div class="btn btn-next"><i class="bi bi-skip-forward-fill"></i></div>
+                <div class="btn btn-random"><i class="bi bi-shuffle"></i></div>
             </div>
             <input id="progress" class="progress" type="range" value="0" step="1" min="0" max="100">
         </div>
@@ -32,7 +35,23 @@
                     <h3 class="music__song-name">Đưa nhau đi trốn</h3>
                     <p class="music__song-author">Đen Vâu</p>
                 </div>
-                <div class="music__song-option"></div>
+                <div class="music__song-option"><i class="bi bi-three-dots"></i></div>
+            </div>
+            <div class="music__song active">
+                <div class="music__song-img"></div>
+                <div class="music__song-content">
+                    <h3 class="music__song-name">Đưa nhau đi trốn</h3>
+                    <p class="music__song-author">Đen Vâu</p>
+                </div>
+                <div class="music__song-option"><i class="bi bi-three-dots"></i></div>
+            </div>
+            <div class="music__song">
+                <div class="music__song-img"></div>
+                <div class="music__song-content">
+                    <h3 class="music__song-name">Đưa nhau đi trốn</h3>
+                    <p class="music__song-author">Đen Vâu</p>
+                </div>
+                <div class="music__song-option"><i class="bi bi-three-dots"></i></div>
             </div>
         </div>
     </div>
