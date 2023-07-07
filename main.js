@@ -1,4 +1,11 @@
+const nameSong = document.querySelector('.music__header-name');
+const imgSong = document.querySelector('.music__cd-img');
+const audio = document.querySelector('#audio');
+const btnPlay = document.querySelector('.btn-play');
+
 const app = {
+    currenIndex : 0,
+    isPlaying: false,
     songs: [
                 {
                     name: 'Heat Wave',
@@ -59,6 +66,7 @@ const app = {
         listSongs.innerHTML = html;
     },
     handleEvents: function() {
+        var _this = this;
         var imgCd = document.querySelector('.music__cd-img');
         var widthImgCd = imgCd.offsetHeight
         document.onscroll = function() {
@@ -69,10 +77,52 @@ const app = {
             imgCd.style.height = newWidthImgCd > 0 ? newWidthImgCd +'px ': 0 ;
             imgCd.style.opacity = newWidthImgCd / widthImgCd;
         }
+
+        btnPlay.onclick = function() {
+            if(_this.isPlaying) {
+                audio.pause();
+            }
+            else {                
+                audio.play();
+            }
+
+         //bắt sự kiện bấm play
+         audio.onplay = function() {
+            _this.isPlaying = true;
+            btnPlay.classList.add('playing')
+         }
+         // bắt sự kiện bấm pause
+         audio.onpause = function() {
+            _this.isPlaying = false;
+            btnPlay.classList.remove('playing');
+         }
+         // bắt sự kiện thay đổi tiến độ bài hát
+
+         audio.ontimeupdate = function() {
+            console.log(audio.currentTime)
+         }
+
+        }
+    },
+    // định nghĩa thuộc tính cho object
+    defineProperties: function() {
+        Object.defineProperty(this,'currenSong', {
+            get: function(){
+                return this.songs[this.currenIndex]
+            }
+        })
+    },
+    loadCurrentSong: function() {
+        nameSong.textContent = this.currenSong.name;
+        imgSong.style.backgroundImage  = `url(${this.currenSong.image})`;
+        audio.src = this.currenSong.path
     },
     start : function() {
-        this.render()
+        this.defineProperties()
         this.handleEvents()
+        // tải bài hát đầu tiên khi người dùng chạy ứng dụng
+        this.loadCurrentSong()
+        this.render()
     }
 
 

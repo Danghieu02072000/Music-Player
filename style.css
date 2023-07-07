@@ -68,6 +68,9 @@ body {
     justify-content: center;
     align-items: center;
 }
+.btn-play .bi-pause-fill {
+    display: none;
+}
 .progress {
     width: 100%;
     -webkit-appearance: none;
@@ -139,4 +142,10 @@ body {
 }
 .music__song.active .music__song-option {
     color: #fff;
+}
+.btn-play.playing .bi-pause-fill {
+    display: block;
+}
+.btn-play.playing .bi-play-fill {
+    display: none;
 }
