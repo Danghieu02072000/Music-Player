@@ -2,6 +2,7 @@ const nameSong = document.querySelector('.music__header-name');
 const imgSong = document.querySelector('.music__cd-img');
 const audio = document.querySelector('#audio');
 const btnPlay = document.querySelector('.btn-play');
+const progress = document.querySelector('.progress')
 
 const app = {
     currenIndex : 0,
@@ -97,11 +98,15 @@ const app = {
             btnPlay.classList.remove('playing');
          }
          // bắt sự kiện thay đổi tiến độ bài hát
-
-         audio.ontimeupdate = function() {
-            console.log(audio.currentTime)
+         progress.oninput = function(e) {
+            let seekTime = e.target.value * (audio.duration / 100);
+            audio.currentTime = seekTime;
          }
-
+         audio.ontimeupdate = function() {
+            progress.value = (audio.currentTime/ audio.duration) * 100;
+         }
+         // bắt sự kiện tua bài hát
+         
         }
     },
     // định nghĩa thuộc tính cho object

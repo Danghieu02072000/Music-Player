@@ -78,7 +78,7 @@ body {
     background: #d3d3d3;
     outline: none;
     opacity: 0.7;
-    transition: opacity 0.2s;
+    transition: all 0.2s ease;
 }
 .progress::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -87,6 +87,7 @@ body {
     height: 6px;
     background-color: #ec1f55;
     cursor: pointer;
+    transition: all 0.2s ease;
   }
 .music__playlist {
     margin-top: 448px;
