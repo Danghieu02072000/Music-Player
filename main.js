@@ -44,16 +44,16 @@ const app = {
                     image:'./assets/images/up.jpg'
                 },
                 {
-                    name: 'Wake Me Up',
-                    singer:'Avicii',
-                    path: './assets/mp3/wake_me_up.mp3',
-                    image:'./assets/images/up.jpg'
+                    name: '하루하루',
+                    singer:'BIGBANG',
+                    path: './assets/mp3/haru.mp3',
+                    image:'./assets/images/haru.jpg'
                 },
                 {
-                    name: 'Wake Me Up',
-                    singer:'Avicii',
-                    path: './assets/mp3/wake_me_up.mp3',
-                    image:'./assets/images/up.jpg'
+                    name: '눈,코,입',
+                    singer:'TAEYANG',
+                    path: './assets/mp3/eyes.mp3',
+                    image:'./assets/images/eyes.jpg'
                 },
             ],
     render: function() {
@@ -115,7 +115,12 @@ const app = {
          }
          //bắt sự kiện bài hát hết sang bài mới
          audio.onended = function() {
-            _this.nextSong();
+            if(_this.isRandom) {
+                _this.randomSong();
+            }
+            else{
+                _this.nextSong();
+            }
             audio.play();
          }
 
@@ -123,12 +128,24 @@ const app = {
          
         }
         btnNext.onclick = function(){
-            _this.nextSong();
+            if(_this.isRandom) {
+                _this.randomSong()
+            }
+            else{
+                _this.nextSong();
+            }
             audio.play();
+
         }
         btnPrev.onclick = function() {
-            _this.prevSong();
+            if(_this.isRandom) {
+                _this.randomSong();
+            }
+            else{
+                _this.prevSong();
+            }
             audio.play();
+
         }
         btnRandom.onclick = function() {
             _this.isRandom = ! _this.isRandom;
@@ -150,32 +167,18 @@ const app = {
         audio.src = this.currenSong.path
     },
     nextSong: function() {
-        if(this.isRandom) {
-            this.randomSong();
-            this.loadCurrentSong();
+        this.currenIndex ++;
+        if(this.currenIndex >= this.songs.length) {
+            this.currenIndex = 0;
         }
-        else {
-            this.currenIndex ++;
-            if(this.currenIndex >= this.songs.length) {
-                this.currenIndex = 0;
-            }
-            this.loadCurrentSong();
-        }
-
+        this.loadCurrentSong();
     },
     prevSong: function() {
-        if(this.isRandom) {
-            this.randomSong();
-            this.loadCurrentSong();
+        this.currenIndex --;
+        if(this.currenIndex < 0) {
+            this.currenIndex = this.songs.length - 1;
         }
-        else{
-            this.currenIndex --;
-            if(this.currenIndex < 0) {
-                this.currenIndex = this.songs.length - 1;
-            }
-            this.loadCurrentSong();
-        }
-
+        this.loadCurrentSong();
     },
     randomSong: function() {
         let newIndex;
@@ -183,6 +186,7 @@ const app = {
             newIndex = Math.floor(Math.random()* this.songs.length );
         }while(newIndex === this.currenIndex );
         this.currenIndex = newIndex;
+        this.loadCurrentSong();
     },
     start : function() {
         this.defineProperties()
