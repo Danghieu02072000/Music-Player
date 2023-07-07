@@ -6,10 +6,12 @@ const progress = document.querySelector('.progress');
 const cdImg = document.querySelector('.music__cd-img');
 const btnNext = document.querySelector('.btn-next');
 const btnPrev = document.querySelector('.btn-prev');
+const btnRandom = document.querySelector('.btn-random');
 
 const app = {
     currenIndex : 1,
     isPlaying: false,
+    isRandom: false,
     songs: [
                 {
                     name: 'Heat Wave',
@@ -107,13 +109,16 @@ const app = {
             let seekTime = e.target.value * (audio.duration / 100);
             audio.currentTime = seekTime;
          }
+         // bắt thanh progress chạy khi bài chạy
          audio.ontimeupdate = function() {
             progress.value = (audio.currentTime/ audio.duration) * 100;
-            if(progress.value == 100) {
-                app.nextSong();
-                audio.play();
-            }
          }
+         //bắt sự kiện bài hát hết sang bài mới
+         audio.onended = function() {
+            _this.nextSong();
+            audio.play();
+         }
+
          // bắt sự kiện tua bài hát
          
         }
@@ -121,9 +126,14 @@ const app = {
             _this.nextSong();
             audio.play();
         }
-        btnPrev.onclick =function() {
+        btnPrev.onclick = function() {
             _this.prevSong();
             audio.play();
+        }
+        btnRandom.onclick = function() {
+            _this.isRandom = ! _this.isRandom;
+            this.classList.toggle('active', _this.isRandom);
+            console.log(_this.isRandom)
         }
     },
     // định nghĩa thuộc tính cho object
@@ -140,18 +150,39 @@ const app = {
         audio.src = this.currenSong.path
     },
     nextSong: function() {
-        this.currenIndex ++;
-        if(this.currenIndex >= this.songs.length) {
-            this.currenIndex = 0;
+        if(this.isRandom) {
+            this.randomSong();
+            this.loadCurrentSong();
         }
-        this.loadCurrentSong();
+        else {
+            this.currenIndex ++;
+            if(this.currenIndex >= this.songs.length) {
+                this.currenIndex = 0;
+            }
+            this.loadCurrentSong();
+        }
+
     },
     prevSong: function() {
-        this.currenIndex --;
-        if(this.currenIndex < 0) {
-            this.currenIndex = this.songs.length - 1;
+        if(this.isRandom) {
+            this.randomSong();
+            this.loadCurrentSong();
         }
-        this.loadCurrentSong();
+        else{
+            this.currenIndex --;
+            if(this.currenIndex < 0) {
+                this.currenIndex = this.songs.length - 1;
+            }
+            this.loadCurrentSong();
+        }
+
+    },
+    randomSong: function() {
+        let newIndex;
+        do{
+            newIndex = Math.floor(Math.random()* this.songs.length );
+        }while(newIndex === this.currenIndex );
+        this.currenIndex = newIndex;
     },
     start : function() {
         this.defineProperties()
