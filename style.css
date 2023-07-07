@@ -23,7 +23,7 @@ body {
 }
 .music__header-now {
     color: #ec1f55;
-    font-size: 12px;
+    font-size: 14px;
 }
 .music__header-name {
     font-size: 20px;
@@ -84,6 +84,7 @@ body {
   }
 .music__playlist {
     padding: 12px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
 }
 .music__song {
     display: flex;
@@ -106,7 +107,7 @@ body {
 }
 .music__song-content {
     flex: 1;
-    padding: 0 16px;
+    padding: 7px 16px;
 }
 .music__song-option {
     padding: 16px 8px;
@@ -115,7 +116,7 @@ body {
 }
 .music__song-name {
     margin: 0;
-    padding-bottom: 8px;
+    padding-bottom: 5px ;
 }
 .music__song-author {
     margin: 0;
