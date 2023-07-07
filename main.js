@@ -2,10 +2,13 @@ const nameSong = document.querySelector('.music__header-name');
 const imgSong = document.querySelector('.music__cd-img');
 const audio = document.querySelector('#audio');
 const btnPlay = document.querySelector('.btn-play');
-const progress = document.querySelector('.progress')
+const progress = document.querySelector('.progress');
+const cdImg = document.querySelector('.music__cd-img');
+const btnNext = document.querySelector('.btn-next');
+const btnPrev = document.querySelector('.btn-prev');
 
 const app = {
-    currenIndex : 0,
+    currenIndex : 1,
     isPlaying: false,
     songs: [
                 {
@@ -69,7 +72,9 @@ const app = {
     handleEvents: function() {
         var _this = this;
         var imgCd = document.querySelector('.music__cd-img');
-        var widthImgCd = imgCd.offsetHeight
+        var widthImgCd = imgCd.offsetHeight;
+        var cdRound = cdImg.animate([{transform: "rotate(360deg)" }],{  duration: 8000, iterations: Infinity,});
+        cdRound.pause();
         document.onscroll = function() {
             var scollY = window.scrollY || document.documentElement.scrollTop;
   
@@ -78,7 +83,6 @@ const app = {
             imgCd.style.height = newWidthImgCd > 0 ? newWidthImgCd +'px ': 0 ;
             imgCd.style.opacity = newWidthImgCd / widthImgCd;
         }
-
         btnPlay.onclick = function() {
             if(_this.isPlaying) {
                 audio.pause();
@@ -86,16 +90,17 @@ const app = {
             else {                
                 audio.play();
             }
-
          //bắt sự kiện bấm play
          audio.onplay = function() {
             _this.isPlaying = true;
-            btnPlay.classList.add('playing')
+            btnPlay.classList.add('playing');
+            cdRound.play();
          }
          // bắt sự kiện bấm pause
          audio.onpause = function() {
             _this.isPlaying = false;
             btnPlay.classList.remove('playing');
+            cdRound.pause();
          }
          // bắt sự kiện thay đổi tiến độ bài hát
          progress.oninput = function(e) {
@@ -104,9 +109,21 @@ const app = {
          }
          audio.ontimeupdate = function() {
             progress.value = (audio.currentTime/ audio.duration) * 100;
+            if(progress.value == 100) {
+                app.nextSong();
+                audio.play();
+            }
          }
          // bắt sự kiện tua bài hát
          
+        }
+        btnNext.onclick = function(){
+            _this.nextSong();
+            audio.play();
+        }
+        btnPrev.onclick =function() {
+            _this.prevSong();
+            audio.play();
         }
     },
     // định nghĩa thuộc tính cho object
@@ -121,6 +138,20 @@ const app = {
         nameSong.textContent = this.currenSong.name;
         imgSong.style.backgroundImage  = `url(${this.currenSong.image})`;
         audio.src = this.currenSong.path
+    },
+    nextSong: function() {
+        this.currenIndex ++;
+        if(this.currenIndex >= this.songs.length) {
+            this.currenIndex = 0;
+        }
+        this.loadCurrentSong();
+    },
+    prevSong: function() {
+        this.currenIndex --;
+        if(this.currenIndex < 0) {
+            this.currenIndex = this.songs.length - 1;
+        }
+        this.loadCurrentSong();
     },
     start : function() {
         this.defineProperties()
