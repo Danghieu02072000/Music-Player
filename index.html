@@ -6,28 +6,39 @@
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="music__wrapper">
         <div class="music__play">
-            <div class="music__header">
-                <h4 class="music__header-now">Now Playing:</h4>
-                <h2 class="music__header-name">Đưa nhau đi trốn</h2>
-            </div>
-            <div class="music__cd">
-                <div class="music__cd-img"></div>
-            </div>
-            <div class="music__controll">
-                <div class="btn btn-repeat">
-                    <i class="bi bi-arrow-repeat"></i>
+            <div class="box">
+                <video autoplay="" loop="" muted="" class="music__background" src="./assets/mp3/sun.mp4"></video>
+                <div class="music__header">
+                    <h4 class="music__header-now">Now Playing:</h4>
+                    <h2 class="music__header-name">Đưa nhau đi trốn</h2>
                 </div>
-                <div class="btn btn-prev"><i class="bi bi-skip-backward-fill"></i></div>
-                <div class="btn btn-play"><i class="bi bi-play-fill"></i> <i class="bi bi-pause-fill"></i></div>
-                <div class="btn btn-next"><i class="bi bi-skip-forward-fill"></i></div>
-                <div class="btn btn-random"><i class="bi bi-shuffle"></i></div>
+                <div class="music__cd">
+                    <div class="music__cd-img"></div>
+                </div>
+                <div class="music__controll">
+                    <div class="btn btn-repeat">
+                        <i class="bi bi-arrow-repeat"></i>
+                    </div>
+                    <div class="btn btn-prev"><i class="bi bi-skip-backward-fill"></i></div>
+                    <div class="btn btn-play"><i class="bi bi-play-fill"></i> <i class="bi bi-pause-fill"></i></div>
+                    <div class="btn btn-next"><i class="bi bi-skip-forward-fill"></i></div>
+                    <div class="btn btn-random"><i class="bi bi-shuffle"></i></div>
+                </div>
+                <input id="progress" class="progress" type="range" value="0" step="1" min="0" max="100">
+                <div class="progress-time">
+                    <div class="time-start">0.00</div>
+                    <div class="time-end">3.00</div>
+                </div>
+                <audio id="audio" src=""></audio>
             </div>
-            <input id="progress" class="progress" type="range" value="0" step="1" min="0" max="100">
-            <audio id="audio" src=""></audio>
+
         </div>
         <div class="music__playlist">
             <div class="music__song">

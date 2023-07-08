@@ -9,6 +9,9 @@ const btnPrev = document.querySelector('.btn-prev');
 const btnRandom = document.querySelector('.btn-random');
 const btnRepeat = document.querySelector('.btn-repeat');
 var listSongs = document.querySelector('.music__playlist');
+const PLAYER_STORAGE = "Dang Hieu";
+const timeStart = document.querySelector('.time-start');
+const timeEnd = document.querySelector('.time-end');
 
 
 const app = {
@@ -16,6 +19,11 @@ const app = {
     isPlaying: false,
     isRandom: false,
     isRepeat: false,
+    config: JSON.parse(localStorage.getItem(PLAYER_STORAGE)) || {},
+    Seting: function(key, val) {
+        this.config[key] = val;
+        localStorage.setItem(PLAYER_STORAGE,JSON.stringify(this.config) )
+    },
     songs: [
                 {
                     name: 'Heat Wave',
@@ -95,6 +103,7 @@ const app = {
             else {                
                 audio.play();
             }
+        }
          //bắt sự kiện bấm play
          audio.onplay = function() {
             _this.isPlaying = true;
@@ -118,7 +127,9 @@ const app = {
          audio.ontimeupdate = function() {
             if(audio.duration) {
                 progress.value = (audio.currentTime/ audio.duration) * 100;
+                _this.convertSecon(audio.currentTime, audio.duration)
             }
+
          }
          //bắt sự kiện bài hát hết sang bài mới
          audio.onended = function() {
@@ -139,7 +150,7 @@ const app = {
 
          // bắt sự kiện tua bài hát
          
-        }
+        
         btnNext.onclick = function(){
             if(_this.isRandom) {
                 _this.randomSong()
@@ -164,12 +175,15 @@ const app = {
         btnRepeat.onclick = function() {
             _this.isRepeat = !_this.isRepeat;
             console.log(_this.isRepeat)
-            btnRepeat.classList.toggle('active', _this.isRepeat)
+            _this.Seting('isRepeat', _this.isRepeat)
+            btnRepeat.classList.toggle('active', _this.isRepeat);
         }
         
         btnRandom.onclick = function() {
             _this.isRandom = ! _this.isRandom;
+            _this.Seting('isRandom', _this.isRandom)
             this.classList.toggle('active', _this.isRandom);
+                        btnRepeat.classList.toggle('active', _this.isRepeat);
             console.log(_this.isRandom)
         }
         listSongs.onclick = function(e){
@@ -199,10 +213,29 @@ const app = {
             }
         })
     },
+    convertSecon: function(curren, duration){
+        let miliDuration = Math.floor(duration / 60);
+        var seconDuration = ((duration % 60)).toFixed(0);
+        seconDuration = seconDuration < 10 ? '0' + seconDuration :  seconDuration;
+
+
+        let miliCurren = Math.floor(curren / 60);
+        var seconCurren = ((curren % 60)).toFixed(0);
+        seconCurren = seconCurren < 10 ? '0' + seconCurren : seconCurren;
+
+
+        timeEnd.innerText = `${miliDuration}:${seconDuration}`;
+        timeStart.innerText = `${miliCurren}:${seconCurren}`;
+
+    },
     loadCurrentSong: function() {
         nameSong.textContent = this.currenSong.name;
         imgSong.style.backgroundImage  = `url(${this.currenSong.image})`;
         audio.src = this.currenSong.path
+    },
+    loadConfig: function() {
+        this.isRandom = this.config.isRandom;
+        this.isRepeat = this.config.isRepeat
     },
     nextSong: function() {
         this.currenIndex ++;
@@ -239,6 +272,7 @@ const app = {
         },200)
     },
     start : function() {
+        this.loadConfig
         this.defineProperties()
         this.handleEvents()
         // tải bài hát đầu tiên khi người dùng chạy ứng dụng
