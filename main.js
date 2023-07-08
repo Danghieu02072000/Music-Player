@@ -7,11 +7,15 @@ const cdImg = document.querySelector('.music__cd-img');
 const btnNext = document.querySelector('.btn-next');
 const btnPrev = document.querySelector('.btn-prev');
 const btnRandom = document.querySelector('.btn-random');
+const btnRepeat = document.querySelector('.btn-repeat');
+var listSongs = document.querySelector('.music__playlist');
+
 
 const app = {
     currenIndex : 1,
     isPlaying: false,
     isRandom: false,
+    isRepeat: false,
     songs: [
                 {
                     name: 'Heat Wave',
@@ -57,9 +61,8 @@ const app = {
                 },
             ],
     render: function() {
-        var listSongs = document.querySelector('.music__playlist');
         var html = this.songs.map(function(song,index){
-            return `<div class="music__song">
+            return `<div class="music__song ${index === app.currenIndex ? 'active' : ''} " data-index='${index}'>
                         <div class="music__song-img" style="background-image: url(${song.image});"></div>
                         <div class="music__song-content">
                             <h3 class="music__song-name">${song.name}</h3>
@@ -97,6 +100,8 @@ const app = {
             _this.isPlaying = true;
             btnPlay.classList.add('playing');
             cdRound.play();
+            _this.render();
+            _this.scollViewActive();
          }
          // bắt sự kiện bấm pause
          audio.onpause = function() {
@@ -111,17 +116,25 @@ const app = {
          }
          // bắt thanh progress chạy khi bài chạy
          audio.ontimeupdate = function() {
-            progress.value = (audio.currentTime/ audio.duration) * 100;
+            if(audio.duration) {
+                progress.value = (audio.currentTime/ audio.duration) * 100;
+            }
          }
          //bắt sự kiện bài hát hết sang bài mới
          audio.onended = function() {
-            if(_this.isRandom) {
-                _this.randomSong();
+            if(_this.isRepeat) {
+                audio.play();
             }
             else{
-                _this.nextSong();
+                if(_this.isRandom) {
+                    _this.randomSong();
+                }
+                else{
+                    _this.nextSong();
+                }
+                audio.play();
             }
-            audio.play();
+  
          }
 
          // bắt sự kiện tua bài hát
@@ -147,10 +160,35 @@ const app = {
             audio.play();
 
         }
+
+        btnRepeat.onclick = function() {
+            _this.isRepeat = !_this.isRepeat;
+            console.log(_this.isRepeat)
+            btnRepeat.classList.toggle('active', _this.isRepeat)
+        }
+        
         btnRandom.onclick = function() {
             _this.isRandom = ! _this.isRandom;
             this.classList.toggle('active', _this.isRandom);
             console.log(_this.isRandom)
+        }
+        listSongs.onclick = function(e){
+            var songNoActive = e.target.closest('.music__song:not(.active)');
+
+            if(songNoActive|| e.target.closest('.music__song-option')){
+
+                if(songNoActive) {
+                  _this.currenIndex =  Number(songNoActive.dataset.index);
+                  _this.loadCurrentSong();
+                  audio.play();
+                }
+
+
+
+                if(e.target.closest('.music__song-option')){
+                    console.log('hi')
+                }
+            }
         }
     },
     // định nghĩa thuộc tính cho object
@@ -187,6 +225,18 @@ const app = {
         }while(newIndex === this.currenIndex );
         this.currenIndex = newIndex;
         this.loadCurrentSong();
+    },
+    repeatSong: function() {
+        this.currenIndex = this.currenIndex;
+        this.loadCurrentSong();
+    },
+    scollViewActive: function() {
+        setTimeout(function(){
+            document.querySelector('.music__song.active').scrollIntoView({
+                behavior: 'smooth',
+                block: 'end'
+            })
+        },200)
     },
     start : function() {
         this.defineProperties()
