@@ -17,7 +17,7 @@ const volume_0 = document.querySelector('.volum0');
 const volume_1 = document.querySelector('.volum1');
 const volume_2 = document.querySelector('.volum2');
 const volume_3 = document.querySelector('.volum3');
-
+const iconVolume = document.querySelectorAll('.volum')
 
 
 const app = {
@@ -25,6 +25,7 @@ const app = {
     isPlaying: false,
     isRandom: false,
     isRepeat: false,
+    isMuted: false,
     config: JSON.parse(localStorage.getItem(PLAYER_STORAGE)) || {},
     Seting: function(key, val) {
         this.config[key] = val;
@@ -110,6 +111,12 @@ const app = {
                 audio.play();
             }
         }
+
+        iconVolume.forEach(function(item) {
+            item.onclick = function(e) {
+                _this.HandleClickVolume(e.target)
+            }
+        })
          //bắt sự kiện bấm play
          audio.onplay = function() {
             _this.isPlaying = true;
@@ -189,7 +196,7 @@ const app = {
             _this.Seting('isRepeat', _this.isRepeat)
             btnRepeat.classList.toggle('active', _this.isRepeat);
         }
-        
+
         btnRandom.onclick = function() {
             _this.isRandom = ! _this.isRandom;
             _this.Seting('isRandom', _this.isRandom)
@@ -207,8 +214,6 @@ const app = {
                   _this.loadCurrentSong();
                   audio.play();
                 }
-
-
 
                 if(e.target.closest('.music__song-option')){
                     console.log('hi')
@@ -240,22 +245,6 @@ const app = {
 
     },
     handleVolum: function(volumCurren){
-        // if(volume == 0) {
-        //     document.querySelector('.volum.active').classList.remove('active')
-        //     volume_0.classList.add('active');
-        // }
-        // if(0 < volume < 30) {
-        //     document.querySelector('.volum.active').classList.remove('active')
-        //     volume_1.classList.add('active');
-        // }
-        // if(30 < volume < 60) {
-        //     document.querySelector('.volum.active').classList.remove('active');
-        //     volume_2.classList.add('active');
-        // }
-        // // if(60 < volume < 100) {
-        // //     document.querySelector('.volum.active').classList.remove('active');
-        // //     volume_3.classList.add('active');
-        // // }
         volumCurren = Number(volumCurren)
         switch(true)
         {
@@ -280,6 +269,20 @@ const app = {
             volume_3.classList.add('active');
           break;
         }
+    },
+    HandleClickVolume : function(icon){
+        this.isMuted = !(this.isMuted)
+        if(this.isMuted) {
+            icon.classList.remove('active');
+            volume_0.classList.add('active');
+            audio.muted = true;
+        }
+        else {
+           let volum = volumnStart.value;
+           this.handleVolum(volum);
+           audio.muted = false;
+        }
+
     },
     loadCurrentSong: function() {
         nameSong.textContent = this.currenSong.name;
