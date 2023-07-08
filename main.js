@@ -12,7 +12,7 @@ var listSongs = document.querySelector('.music__playlist');
 const PLAYER_STORAGE = "Dang Hieu";
 const timeStart = document.querySelector('.time-start');
 const timeEnd = document.querySelector('.time-end');
-const video = document.querySelector('.music__background')
+
 
 
 const app = {
@@ -103,7 +103,6 @@ const app = {
             }
             else {                
                 audio.play();
-                video.play();
             }
         }
          //bắt sự kiện bấm play
