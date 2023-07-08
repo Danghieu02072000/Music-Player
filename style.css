@@ -82,7 +82,7 @@ body {
 .progress {
     width: 95%;
     -webkit-appearance: none;
-    height: 6px;
+    height: 7px;
     background: #d3d3d3;
     outline: none;
     opacity: 0.7;
@@ -107,12 +107,13 @@ body {
     align-items: center;
   }
   .time-start {
-
+    font-family: 'Poppins', sans-serif;
     color: #fff;
     font-weight: 700;
     font-size: 16px;
   }
   .time-end {
+    font-family: 'Poppins', sans-serif;
     color: #fff;
     font-weight: 700;
     font-size: 16px;
@@ -200,6 +201,55 @@ body {
     top:0;
     left: 0;
     padding: 20px 10px;
+}
+.music__volumn {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 5px;
+}
+.music__volumn i{
+    background: linear-gradient(45deg, #21f329 14%, #f3ed21e0 48%, #ffc307);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    font-size: 22px;
+    position: absolute;
+    left:0;
+    top:0;
+    display: none;
+}
+.volum0 {
+    left: -0.1px !important;
+}
+.volum1 {
+    left: -5.7px !important;
+}
+.volum2 {
+    left: -2.7px !important;
+}
+.volum3 {
+    left: 0px !important;
+}
+.volumn {
+    width: 29%;
+    -webkit-appearance: none;
+    height: 7px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    overflow: hidden;
+}
+.volumn::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 6px;
+    background-color: rgb(255 171 112);
+    cursor: pointer;
+    box-shadow: -400px 0 0 400px rgb(255 171 112);
+  }
+.music__volumn i.active {
+    display: block;
 }
 @media (max-width: 460px) {
     .music__play {

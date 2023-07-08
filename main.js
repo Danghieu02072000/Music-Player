@@ -12,6 +12,11 @@ var listSongs = document.querySelector('.music__playlist');
 const PLAYER_STORAGE = "Dang Hieu";
 const timeStart = document.querySelector('.time-start');
 const timeEnd = document.querySelector('.time-end');
+const volumnStart = document.querySelector('.volumn');
+const volume_0 = document.querySelector('.volum0');
+const volume_1 = document.querySelector('.volum1');
+const volume_2 = document.querySelector('.volum2');
+const volume_3 = document.querySelector('.volum3');
 
 
 
@@ -124,6 +129,11 @@ const app = {
             let seekTime = e.target.value * (audio.duration / 100);
             audio.currentTime = seekTime;
          }
+         volumnStart.oninput = function(e) {
+            let volumCurren = e.target.value;
+            audio.volume = volumCurren / 100;
+            _this.handleVolum(volumCurren)
+         }
          // bắt thanh progress chạy khi bài chạy
          audio.ontimeupdate = function() {
             if(audio.duration) {
@@ -229,10 +239,53 @@ const app = {
         timeStart.innerText = `${miliCurren}:${seconCurren}`;
 
     },
+    handleVolum: function(volumCurren){
+        // if(volume == 0) {
+        //     document.querySelector('.volum.active').classList.remove('active')
+        //     volume_0.classList.add('active');
+        // }
+        // if(0 < volume < 30) {
+        //     document.querySelector('.volum.active').classList.remove('active')
+        //     volume_1.classList.add('active');
+        // }
+        // if(30 < volume < 60) {
+        //     document.querySelector('.volum.active').classList.remove('active');
+        //     volume_2.classList.add('active');
+        // }
+        // // if(60 < volume < 100) {
+        // //     document.querySelector('.volum.active').classList.remove('active');
+        // //     volume_3.classList.add('active');
+        // // }
+        volumCurren = Number(volumCurren)
+        switch(true)
+        {
+        case (volumCurren == 0):
+          console.log('0')
+          document.querySelector('.volum.active').classList.remove('active')
+          volume_0.classList.add('active');
+          break;
+        case ((volumCurren >= 1) && (volumCurren <= 30)):
+            console.log('25')
+            document.querySelector('.volum.active').classList.remove('active')
+            volume_1.classList.add('active');
+          break;
+        case ((volumCurren >= 31) && (volumCurren <= 70)):
+            console.log('50')
+            document.querySelector('.volum.active').classList.remove('active')
+            volume_2.classList.add('active');
+          break;
+        case ((volumCurren >= 71) && (volumCurren <= 100)):
+            console.log('100')
+            document.querySelector('.volum.active').classList.remove('active')
+            volume_3.classList.add('active');
+          break;
+        }
+    },
     loadCurrentSong: function() {
         nameSong.textContent = this.currenSong.name;
         imgSong.style.backgroundImage  = `url(${this.currenSong.image})`;
-        audio.src = this.currenSong.path
+        audio.src = this.currenSong.path;
+        audio.volume = volumnStart.value / 100;
     },
     loadConfig: function() {
         this.isRandom = this.config.isRandom;
