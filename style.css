@@ -19,6 +19,7 @@ body {
     top:0;
     border-radius: 10px;
     overflow: hidden;
+    z-index: 100;
 }
 .music__header {
     text-align: center;
@@ -63,6 +64,11 @@ body {
     padding: 18px;
     font-size: 20px;
     color: #fff;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+.music__controll .btn:hover {
+    opacity: 0.8;
 }
 .music__controll .btn-play {
     height: 50px;
@@ -119,7 +125,7 @@ body {
     font-size: 16px;
   }
 .music__playlist {
-    margin-top: 435px;
+    margin-top: 530px;
     padding: 12px;
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -135,6 +141,18 @@ body {
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
     align-items: center;
     margin-bottom: 12px;
+    cursor: pointer;
+}
+.music__song:not(.active):hover {
+    background: linear-gradient(45deg, #f369217d 14%, #99ff074d 48%, #ffb30780);
+    opacity: 0.8;
+    color:white;
+}
+.music__song:not(.active):hover .music__song-author {
+    color:white;
+}
+.music__song:not(.active):hover .music__song-option {
+    color: white;
 }
 .music__song-img {
     background-image: url(./assets/images/img1.jpg);
@@ -216,6 +234,7 @@ body {
     left:0;
     top:0;
     display: none;
+    cursor: pointer;
 }
 .volum0 {
     left: -0.1px !important;
@@ -282,6 +301,9 @@ body {
 
 }
 @media (max-width: 380px) {
+    .music__playlist {
+        margin-top: 435px;
+    }
     .music__play {
         max-width: 350px;
     }
